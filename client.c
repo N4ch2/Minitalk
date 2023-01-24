@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joramire <joramire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nacho <nacho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 12:05:05 by joramire          #+#    #+#             */
-/*   Updated: 2023/01/22 20:58:52 by joramire         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:45:31 by nacho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include <signal.h>
 #include "Printf/ft_printf.h"
 
-static int swch = 0;
+int	pass = 0;
 
 void	sig_handler(int sigtype)
 {
 	int		aux;
 
 	aux = sigtype;
-	swch = 1;
+	pass = 1;
 }
 
 void	ft_send_bytes(int c, int server_pid)
@@ -31,6 +31,7 @@ void	ft_send_bytes(int c, int server_pid)
 	bit = 0;
 	while (bit < 8)
 	{
+		pass = 0;
 		if ((c & (1 << bit)) != 0)
 		{
 			kill(server_pid, SIGUSR1);
@@ -40,9 +41,10 @@ void	ft_send_bytes(int c, int server_pid)
 			kill(server_pid, SIGUSR2);
 		}
 		bit++;
-		swch = 0;
-		while (swch == 0)
-			usleep(1);
+		while (pass == 0)
+		{
+			usleep(1);	
+		}
 	}
 }
 

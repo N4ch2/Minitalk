@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joramire <joramire@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nacho <nacho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 11:13:42 by joramire          #+#    #+#             */
-/*   Updated: 2023/01/22 20:09:38 by joramire         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:39:16 by nacho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int argc, char **argv)
 	{
 		signals.sa_sigaction = (void *)sig_handler;
 		sigemptyset(&signals.sa_mask);
-		signals.sa_flags = SA_RESTART | SA_SIGINFO;
+		signals.sa_flags = SA_RESTART | SA_SIGINFO | SA_NODEFER;
 		sigaction(SIGUSR1, &signals, NULL);
 		sigaction(SIGUSR2, &signals, NULL);
 		ft_printf("%s PID: %d\n", argv[0] + 2, getpid());
