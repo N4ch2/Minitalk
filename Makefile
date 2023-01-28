@@ -1,11 +1,14 @@
 SRCS = server.c\
 	   client.c\
+	   
+BONUS_SRCS = server_bonus.c\
+	   		 client_bonus.c\
 
-NAME = libftprintf.a
+OBJS = $(SRCS:.c=)
 
-SERVER = server
+BONUS_OBJS = $(BONUS_SRCS:.c=)
 
-CLIENT = client
+NAME = project
 
 CC = gcc 
 
@@ -13,26 +16,26 @@ CFLAGS = -Wall -Werror -Wextra
 
 INCLUDE = ./Printf/libftprintf.a
 
-all : lib $(NAME)
+all : $(NAME) 
 
-lib :
+.c : 
+	$(CC) $(CFLAGS) $< $(INCLUDE)  -o $(<:.c=) 
+
+$(INCLUDE) :
 	make -C ./Printf
 
-$(NAME) : $(SRCS)
-	$(CC) $(CFLAGS) $< $(INCLUDE) -o $(SERVER)
-	$(CC) $(CFLAGS) $(word 2,$^) $(INCLUDE) -o $ $(CLIENT)
+$(NAME) : $(INCLUDE) $(OBJS)
 	
+bonus :  $(INCLUDE) $(BONUS_OBJS)
 
 clean :
 	@cd Printf && make clean
-	@$(RM) $(SERVER)
-	@$(RM) $(CLIENT)
+	@echo "objects deleted"
 
 fclean : 
 	@cd Printf && make fclean
-	@$(RM) $(SERVER)
-	@$(RM) $(CLIENT)
-
+	@$(RM) $(OBJS) $(BONUS_OBJS)
+	@echo "programs deleted"
 
 re : fclean all
 
